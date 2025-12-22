@@ -1,10 +1,12 @@
+# Job_Hunter/utils/logger.py
 import logging
 
-def setup_logger(name="job_hunter"):
-    logger = logging.getLogger(name)
+def setup_logger():
+    logger = logging.getLogger("Job_Hunter")
     logger.setLevel(logging.INFO)
-    handler = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+    if not logger.handlers:
+        ch = logging.StreamHandler()
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        ch.setFormatter(formatter)
+        logger.addHandler(ch)
     return logger

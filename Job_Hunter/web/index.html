@@ -2,43 +2,61 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Job List</title>
-<style>
-  body { font-family: Arial; }
-  .job { margin-bottom: 10px; }
-  .sent { text-decoration: line-through; color: gray; }
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Hunter AI</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Jobs to Apply</h1>
-<p>Sent: <span id="counter">0</span></p>
-<div id="job-list"></div>
+<div class="container">
+    <header><h1>Job Hunter AI</h1></header>
 
-<script>
-fetch('jobs_list.json')  // o JSON gerado pelo seu script
-  .then(res => res.json())
-  .then(jobs => {
-    const container = document.getElementById('job-list');
-    let sentCount = 0;
+    <div class="cv-section">
+        <input type="file" id="cvInput" accept=".pdf,.doc,.docx">
+        <span id="cvName">Nenhum CV selecionado</span>
+        <button id="deleteCV">✖</button>
+    </div>
 
-    jobs.forEach((job, index) => {
-      const div = document.createElement('div');
-      div.className = 'job';
-      div.innerHTML = `<a href="${job.url}" target="_blank">${job.title} at ${job.company} (${job.location})</a>
-                       <button>Mark as sent</button>`;
-      const button = div.querySelector('button');
+    <div class="compatibility">
+        <label>Compatibilidade mínima: <span id="compatValue">50%</span></label>
+        <input type="range" id="compatSlider" min="0" max="100" value="50">
+    </div>
 
-      button.addEventListener('click', () => {
-        if (!div.classList.contains('sent')) {
-          div.classList.add('sent');
-          sentCount++;
-          document.getElementById('counter').textContent = sentCount;
-        }
-      });
+    <div class="scan-section">
+        <button id="startScan">BUSCAR VAGAS</button>
+        <div class="progress-bar"><div id="progress"></div></div>
+    </div>
 
-      container.appendChild(div);
-    });
-  });
-</script>
+    <div class="jobs-list">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Título</th>
+                    <th>Empresa</th>
+                    <th>Local</th>
+                    <th>Compat.</th>
+                    <th>Descritivo</th>
+                    <th>Aplicar</th>
+                </tr>
+            </thead>
+            <tbody id="jobsTable"></tbody>
+        </table>
+    </div>
+
+    <!-- Modal para descritivo -->
+    <div id="jobModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1 id="modalTitle"></h1>
+            <h2 id="modalCompany"></h2>
+            <p id="modalLocation"></p>
+            <p id="modalCompat"></p>
+            <p id="modalDescription"></p>
+            <button id="modalApply">Aplicar</button>
+        </div>
+    </div>
+
+</div>
+<script src="script.js"></script>
 </body>
 </html>

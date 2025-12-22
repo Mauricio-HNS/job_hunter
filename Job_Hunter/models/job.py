@@ -1,14 +1,9 @@
-from datetime import datetime
-
+# Job_Hunter/models/job.py
 class Job:
-    def __init__(self, title, company, url, skills=None, location=None, seniority=None, date_posted=None):
+    def __init__(self, title, company=None, url=None, location=None, compatibility=None):
         self.title = title
         self.company = company
         self.url = url
-        self.skills = skills or []
         self.location = location
-        self.seniority = seniority
-        self.date_posted = date_posted or datetime.now()
-
-    def __repr__(self):
-        return f"<Job {self.title} at {self.company}>"
+        self.compatibility = compatibility
+        self.applied = False  # Para botão "Aplicar"
